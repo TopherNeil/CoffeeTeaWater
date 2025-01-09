@@ -5,7 +5,12 @@ import aspectRatio from '@tailwindcss/aspect-ratio';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    presets: [
+        require('./vendor/wireui/wireui/tailwind.config.js')
+    ],
     content: [
+        './vendor/wireui/wireui/**/*.blade.php',
+        './resources/**/*.blade.php',
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
