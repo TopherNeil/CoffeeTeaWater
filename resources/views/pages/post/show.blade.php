@@ -1,7 +1,7 @@
 <x-layout>
     <x-navbar/>
-    <div class="w-[830px] h-auto flex flex-col rounded shadow-lg border-slate-600 p-10">
-        <div class="flex flex-col border-t border-slate-300 my-2 p-5 w-100 h-auto rounded relative">
+    <div class="w-[830px] h-auto flex flex-col rounded-lg shadow-lg p-10">
+        <div class="flex flex-col my-10 p-5 w-100 h-auto rounded relative">
             <div class="flex w-full gap-2 justify-between items-center">
                 <div class="flex items-center gap-2">
                     <h1 class="text-xl font-bold hover:text-gray-600">{{ 'u/' . $post->username }}</h1>
