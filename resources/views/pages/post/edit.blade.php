@@ -35,7 +35,6 @@
               </label>
               <input type="file" class="border border-gray-200 rounded p-2 w-full" name="photo" accept="image/png, image/jpeg, image/jpeg"/>
               <p>Selected Photo:</p>
-              @dump($post['photo'])
               <img src="{{Storage::url($post['photo'])}}" alt="">
               @error('media')
               <p class="text-red-500 text-xs mt-1">{{$message}}</p>
