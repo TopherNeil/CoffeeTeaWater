@@ -43,10 +43,30 @@
                     @csrf
                      <x-icon-button icon="fas-thumbs-up" text="like" active_state="text-blue-600 group-hover:text-blue-300" inactive_state="text-gray-600 group-hover:text-blue-600"/>
                 </form>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-icon-button icon="fas-comment" text="comment" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
+            </div>
+        </div>
+        <div class="border-2 border-slate-100 rounded-lg w-full h-auto px-5 py-5">
+            
+            <form class="flex flex-col gap-2" method="POST" action="{{ route('home') }}">
+                <textarea class="border focus:outline-none border-gray-200 h-[100px] min-h-[100px] rounded-lg p-2 w-full shadow" name="comment" rows="5" placeholder="Write a comment..."></textarea>
+                <x-icon-button class="self-end w-[100px] text-center" icon="fas-up-long" text="Send" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
                 </form>
+
+            <span class="mb-5">{{ 'Comments(' . count($comments) . ')' }}</span>
+            <div class="flex flex-col gap-2">
+                @if (count($comments) > 0)
+                    @foreach ($comments as $comment)
+                        <div class="w-full flex flex-col rounded-lg shadow p-4">
+                            <span class="font-bold">{{$comment["commenter_name"]}}</span>
+                            <span class="text-sm">{{$comment["comment"]}}</span>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="w-full h-[100px] flex flex-col items-center justify-center">
+                        <span class="text-xl">No Comments Yet.</span>
+                        <span class="font-bold">:<</span>
+                    </div>
+                @endif
             </div>
         </div>  
     </div>
