@@ -54,7 +54,12 @@ class PostController extends Controller
                              'posts.created_at as created_at', 'posts.description as description', 
                              'posts.photo as photo')
                     ->first();
-        return view('pages.post.show', compact('post'));
+        $comments = [
+            ['commenter_name' => "Chon Gomez" , 'comment' => 'Hello, have a great week!'],
+            ['commenter_name' => "Monica Jalva" , 'comment' => 'Hello, have a great month!'],
+            ['commenter_name' => "Kyedae Ishmyta" , 'comment' => 'Hello, have a great year!']
+        ];
+        return view('pages.post.show', compact('post', 'comments'));
     }
 
     public function edit($id)
