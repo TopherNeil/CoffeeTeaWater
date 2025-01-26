@@ -55,7 +55,7 @@
                          <x-icon-button icon="fas-thumbs-up" text="like" active_state="text-blue-600 group-hover:text-blue-300" inactive_state="text-gray-600 group-hover:text-blue-600"/>
                     </form>
                     <a class="group" href="/post/{{$post->id}}">
-                                                <x-icon-button icon="fas-comment" text="comment" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
+                        <x-icon-button icon="fas-comment" text="comment" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
                     </a>
                 </div>
             </div>   
