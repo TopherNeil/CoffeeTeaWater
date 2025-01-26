@@ -7,7 +7,7 @@
 <x-layout>
     <x-navbar/>        
     <div class="w-full flex justify-center mt-[20px] h-[20px]">
-        <span class="text-xl font-bold">Home</span>
+        <span class="text-xl font-bold">{{__('Home')}}</span>
     </div>
     <div class="w-[830px] h-auto flex flex-col rounded shadow-lg border-slate-600 p-10">
         
