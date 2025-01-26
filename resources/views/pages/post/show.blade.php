@@ -53,7 +53,7 @@
             <form class="flex flex-col gap-2" method="POST" action="{{ route('home') }}">
                 <textarea class="border focus:outline-none border-gray-200 h-[100px] min-h-[100px] rounded-lg p-2 w-full shadow" name="comment" rows="5" placeholder="Write a comment..."></textarea>
                 <x-icon-button class="self-end w-[100px] text-center" icon="fas-up-long" text="Send" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
-                </form>
+            </form>
 
             <span class="mb-5">{{ 'Comments(' . count($comments) . ')' }}</span>
             <div class="flex flex-col gap-2">
