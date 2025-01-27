@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\NotificationController;
@@ -49,6 +50,9 @@ Route::middleware('auth')->group(function() {
 
     // Notification
     Route::get('/notification', [NotificationController::class, 'index'])->name('notification');
+
+    // Comment
+    Route::post('/comments/{post_id}', [CommentController::class, 'store'])->name('comment.store');
     
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
