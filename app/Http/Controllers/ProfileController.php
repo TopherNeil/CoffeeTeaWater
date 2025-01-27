@@ -5,18 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     public function index() 
     {
-        $currentUser = Auth::user();
-        $posts = Post::leftJoin('users', 'users.id', 'posts.user_id')
-                        ->select('users.username as username', 'posts.user_id as user_id', 'posts.id as post_id', 'posts.created_at', 'posts.title', 'posts.description', 'posts.photo')
-                        ->where('users.id', $currentUser->id)
-                        ->get();
-        return view('pages.profile.index', ['user' => $currentUser, 'posts' => $posts]);
+        try {
+
+            $currentUser = Auth::user();
+            $posts = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
+                            ->leftJoin('comments', 'comments.post_id', '=', 'posts.id')
+                            ->select('users.username as username', 
+                                    'posts.user_id as user_id', 
+                                    'posts.id as post_id', 
+                                    'posts.created_at', 
+                                    'posts.title', 
+                                    'posts.description', 
+                                    'posts.photo',
+                                    DB::raw('COUNT(comments.id) as comment_count'))
+                            ->where('users.id', $currentUser->id)
+                            ->groupBy('users.username', 'posts.user_id', 'posts.id', 'posts.created_at', 'posts.title', 'posts.description', 'posts.photo')
+                            ->get();
+
+            return view('pages.profile.index', ['user' => $currentUser, 'posts' => $posts]);
+
+        } catch (\Exception $e) {
+            report($e);
+        }
     }
 
     public function edit()

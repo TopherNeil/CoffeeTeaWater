@@ -2,23 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
     public function index(Request $request) 
     {
-        $posts = Post::leftJoin('users', 'users.id', 'posts.user_id')
-                    ->select('posts.id as id', 'posts.user_id as user_id', 
-                             'users.username as username', 'posts.title as title', 
-                             'posts.created_at as created_at', 'posts.description as description', 
-                             'posts.photo as photo')
-                    ->latest()->get();
-        return view('pages.home', compact('posts'));
+        try {
+            
+            $posts = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
+            ->leftJoin('comments', 'comments.post_id', '=', 'posts.id')
+            ->select(
+                'posts.id as id',
+                'posts.user_id as user_id',
+                'users.username as username',
+                'posts.title as title',
+                'posts.created_at as created_at',
+                'posts.description as description',
+                'posts.photo as photo',
+                DB::raw('COUNT(comments.id) as comment_count'))
+            ->groupBy('posts.id', 'posts.user_id', 'users.username', 'posts.title', 'posts.created_at', 'posts.description', 'posts.photo')
+            ->latest()
+            ->get();
+
+            return view('pages.home', compact('posts'));
+
+        } catch (\Exception $e) {
+            report($e);
+        }   
     }
 
     public function create()
@@ -69,7 +85,6 @@ class PostController extends Controller
                         ->where('posts.id', $id)
                         ->paginate(5);
             
-                        // dd($comments->toArray());
             return view('pages.post.show', compact('post', 'comments'));
 
         } catch (\Exception $e) {
