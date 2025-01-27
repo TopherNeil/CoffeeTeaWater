@@ -66,7 +66,7 @@
                     </form>
                     
                     <a class="group" href="/post/{{$post->post_id}}">
-                        <x-icon-button icon="fas-comment" text="comment" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
+                        <x-button severity="custom" name="Comments({{$post->comment_count}})" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600" class=""/>
                     </a>
                 </div>
             </div>   
