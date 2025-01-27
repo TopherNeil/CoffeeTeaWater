@@ -48,20 +48,36 @@
                 </form>
             </div>
         </div>
-        <div class="border-2 border-slate-100 rounded-lg w-full h-auto px-5 py-5">
+        <div class="rounded-lg w-full h-auto px-5 py-2">
             
-            <form class="flex flex-col gap-2" method="POST" action="{{ route('home') }}">
-                <textarea class="border focus:outline-none border-gray-200 h-[100px] min-h-[100px] rounded-lg p-2 w-full shadow" name="comment" rows="5" placeholder="Write a comment..."></textarea>
-                <x-icon-button class="self-end w-[100px] text-center" icon="fas-up-long" text="Send" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
+            <form class="flex flex-col gap-2" method="POST" action="{{ route('comment.store', ['post_id' => $post->id] )}}">
+                @csrf
+                <div class="flex items-center gap-2">
+                    <div class="rounded-[50%] bg-slate-300 h-[50px] w-[50px]">
+                        <img class="rounded-[50%] object-contain h-[50px] w-[50px] " src="{{Auth::user()->profile_picture ? Storage::url(Auth::user()->profile_picture) : asset('assets/images/blank_profile.png')}}" alt="profile_picture"/>
+                    </div>
+                    <textarea class="focus:outline-none border-b border-gray-200 h-[50px] min-h-[50px] rounded-lg p-2 w-full shadow" name="content" rows="5" placeholder="Write a comment..."></textarea>
+                </div>
+                
+                <x-button severity="custom" type="submit" name="Comment" class="self-end hover:text-orange-600"/>
             </form>
 
-            <span class="mb-5">{{ 'Comments(' . count($comments) . ')' }}</span>
+            <span class="mb-5">{{ 'Comments(' . $comments->total() . ')' }}</span>
             <div class="flex flex-col gap-2">
                 @if (count($comments) > 0)
                     @foreach ($comments as $comment)
-                        <div class="w-full flex flex-col rounded-lg shadow p-4">
-                            <span class="font-bold">{{$comment["commenter_name"]}}</span>
-                            <span class="text-sm">{{$comment["comment"]}}</span>
+                        <div class="w-full flex items-center rounded-lg gap-2 shadow p-4">
+                            <div class="rounded-[50%] bg-slate-300 h-[50px] w-[50px]">
+                                <img class="rounded-[50%] object-contain h-[50px] w-[50px] " src="{{$comment->profile_picture ? Storage::url($comment->profile_picture) : asset('assets/images/blank_profile.png')}}" alt="profile_picture"/>
+                            </div>
+                            <div class="flex flex-col justify-center w-full">
+                                <div class="flex gap-2 items-center">
+                                    <span class="font-bold">{{'u/' . $comment->username}}</span>
+                                    <span class="text-xs">{{ $comment->created_at->diffForHumans() }}</span>
+                                </div>
+                                
+                                <p class="text-sm w-full break-all">{{ $comment->content }}</p>
+                            </div>
                         </div>
                     @endforeach
                     @if ($comments->hasPages())
