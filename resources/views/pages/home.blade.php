@@ -52,7 +52,7 @@
                 <div class="mt-6 flex w-full gap-2">
                     <form method="POST" action="{{ route('home') }}">
                         @csrf
-                         <x-icon-button icon="fas-thumbs-up" text="like" active_state="text-blue-600 group-hover:text-blue-300" inactive_state="text-gray-600 group-hover:text-blue-600"/>
+                         <x-icon-button icon="fas-heart" :active="true" text="143" active_state="text-red-600 group-hover:text-red-300" inactive_state="text-gray-600 group-hover:text-red-600"/>
                     </form>
                     <a class="group" href="/post/{{$post->id}}">
                         <x-button severity="custom" name="Comments({{$post->comment_count}})" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
