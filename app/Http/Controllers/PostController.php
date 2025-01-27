@@ -28,43 +28,60 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $form = $request->validate([
-            'title' => 'required|string|max:55', 
-            'description' => 'required|string|max:255'
-        ]);
+        try {
 
-        $form['user_id'] = Auth::user()->id;
+            $form = $request->validate([
+                'title' => 'required|string|max:55', 
+                'description' => 'required|string|max:255'
+            ]);
+    
+            $form['user_id'] = Auth::user()->id;
+    
+            if($request->hasFile('photo'))
+            {
+                $form['photo'] = $request->file('photo')->store('images', 'public');
+            }
+            
+            Post::create($form);
+    
+            return redirect('home')->with('message', 'Posted!');
 
-        if($request->hasFile('photo'))
-        {
-            $form['photo'] = $request->file('photo')->store('images', 'public');
-        }
-        
-        Post::create($form);
-
-        return redirect('home')->with('message', 'Posted!');
-        
+        } catch (\Exception $e) {
+            report($e);
+        } 
     }
 
     public function show($id) 
     {
-        $post = Post::leftJoin('users', 'users.id', 'posts.user_id')->where('posts.id', $id)
+        try {
+          
+            $post = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
+                    ->where('posts.id', $id)
                     ->select('posts.id as id', 'posts.user_id as user_id', 
-                             'users.username as username', 'posts.title as title', 
+                             'users.username as username', 'users.profile_picture as profile_picture', 'posts.title as title', 
                              'posts.created_at as created_at', 'posts.description as description', 
                              'posts.photo as photo')
                     ->first();
-        $comments = [
-            ['commenter_name' => "Chon Gomez" , 'comment' => 'Hello, have a great week!'],
-            ['commenter_name' => "Monica Jalva" , 'comment' => 'Hello, have a great month!'],
-            ['commenter_name' => "Kyedae Ishmyta" , 'comment' => 'Hello, have a great year!']
-        ];
-        return view('pages.post.show', compact('post', 'comments'));
+
+            $comments = Comment::leftJoin('posts', 'posts.id', '=', 'comments.post_id')
+                        ->leftJoin('users', 'users.id', '=', 'comments.user_id')
+                        ->select('comments.content as content', 'users.username as username', 'users.profile_picture as profile_picture', 'comments.created_at as created_at')
+                        ->where('posts.id', $id)
+                        ->paginate(5);
+            
+                        // dd($comments->toArray());
+            return view('pages.post.show', compact('post', 'comments'));
+
+        } catch (\Exception $e) {
+            report($e);
+        } 
     }
 
     public function edit($id)
     {
-        $post = Post::leftJoin('users', 'users.id', 'posts.user_id')
+        try {
+            
+            $post = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
                     ->select('posts.id as id', 'posts.user_id as user_id', 
                              'users.username as username', 'posts.title as title', 
                              'posts.created_at as created_at', 'posts.description as description', 
@@ -72,39 +89,51 @@ class PostController extends Controller
                              ->where('posts.id', $id)
                              ->first()
                              ->toArray();
+                 
+            if (Auth::user()->id === $post['user_id']) {
+                return view('pages.post.edit', compact('post'));
+            }
+                
+            return redirect('home');
 
-                             
-        if (Auth::user()->id === $post['user_id']) {
-            return view('pages.post.edit', compact('post'));
+        } catch (\Exception $e) {
+            report($e);
         }
-            
-        return redirect('home');
+        
     }
 
     public function update(Request $request, $id)
     {
-        $form = $request->validate([
-            'title' => 'required',
-            'description' => 'required'
-        ]);
+        try {
 
-        $post = Post::findOrFail($id);
+            $form = $request->validate([
+                'title' => 'required',
+                'description' => 'required'
+            ]);
+    
+            $post = Post::findOrFail($id);
+    
+            if($request->hasFile('photo')) {
+                $form['photo'] = $request->file('photo')->store('images', 'public');
+            }
+    
+            $post->update($form);
+    
+            return redirect('home');
 
-        if($request->hasFile('photo')) {
-            $form['photo'] = $request->file('photo')->store('images', 'public');
+        } catch (\Exception $e) {
+            report($e);
         }
-
-        $post->update($form);
-
-        return redirect('home');
     }
 
     public function destroy($id)
     {
         try {
+
             $post = Post::findOrFail($id);
             $post->delete();
             return redirect('home');
+            
         } catch(\Exception $e) {
             report($e);
         }

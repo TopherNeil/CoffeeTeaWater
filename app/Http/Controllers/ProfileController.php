@@ -27,21 +27,25 @@ class ProfileController extends Controller
 
     public function update(Request $request) 
     {
-        $form = $request->validate([
-            'profile_picture' => 'nullable|mimes:png,jpg'
-        ]);
-        $currentUserId = Auth::user()->id;
-        $currentUser = User::findOrFail($currentUserId);
-        if ($request->hasFile('profile_picture'))
-        {
-            $form['profile_picture'] = $request->file('profile_picture')->store('images', 'public');
-        } else {
-            $form['profile_picture'] = null;
-        }
+        try {
+            
+            $form = $request->validate([
+                'profile_picture' => 'nullable|mimes:png,jpg'
+            ]);
+            $currentUserId = Auth::user()->id;
+            $currentUser = User::findOrFail($currentUserId);
+            if ($request->hasFile('profile_picture'))
+            {
+                $form['profile_picture'] = $request->file('profile_picture')->store('images', 'public');
+            } else {
+                $form['profile_picture'] = null;
+            }
+    
+            $currentUser->update($form);
+            return redirect('profile');
 
-        
-        $currentUser->update($form);
-        return redirect('profile');
-        
+        } catch (\Exception $e) {
+            report($e);
+        }
     }
 }

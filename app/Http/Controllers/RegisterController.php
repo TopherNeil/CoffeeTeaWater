@@ -16,13 +16,13 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $form = $request->validate([
-            'username' => 'required|string|max:15',
-            'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|string|min:8|confirmed'
-        ]);
-
         try {
+            $form = $request->validate([
+                'username' => 'required|string|max:15',
+                'email' => 'required|email|unique:users,email|max:255',
+                'password' => 'required|string|min:8|confirmed'
+            ]);
+
             $form['name'] = 'Chon';
             $form['password'] = Hash::make($form['password']);
             $user = User::create($form);
@@ -32,6 +32,5 @@ class RegisterController extends Controller
         } catch (\Exception $e) {
             report($e);
         }
-        
     }
 }

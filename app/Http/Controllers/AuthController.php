@@ -16,14 +16,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'login' => 'required|string',
-            'password' => 'required'
-        ]);
-
-        $loginField = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
         try {
+            $request->validate([
+                'login' => 'required|string',
+                'password' => 'required'
+            ]);
+    
+            $loginField = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
             if(Auth::attempt([$loginField => $request->input('login'), 'password' => $request->input('password')]))
             {
                 $request->session()->regenerate();
@@ -43,10 +43,16 @@ class AuthController extends Controller
 
     public function logout(Request $request) 
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/');
+        try {
+
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/');
+
+        } catch (\Exception $e) {
+            report($e);
+        }
     }
 
     public static function clearMessage() 
