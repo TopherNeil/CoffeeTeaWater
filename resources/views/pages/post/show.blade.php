@@ -64,6 +64,11 @@
                             <span class="text-sm">{{$comment["comment"]}}</span>
                         </div>
                     @endforeach
+                    @if ($comments->hasPages())
+                    <div class="mt-4">
+                        {{ $comments->links() }}
+                    </div>
+                    @endif
                 @else
                     <div class="w-full h-[100px] flex flex-col items-center justify-center">
                         <span class="text-xl">No Comments Yet.</span>
