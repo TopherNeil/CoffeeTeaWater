@@ -28,6 +28,9 @@
             </div>
 
             @if($post->photo)
+                <div class="mb-2">
+                    <p class="text-xl">{{ $post->description }}</p>
+                </div>
                 <a href="/storage/{{ $post->photo }}" class="cursor-zoom-in">
                     <div class="bg-gradient-to-tr from-slate-600 to-slate-800 w-full h-[450px] rounded flex justify-center">
                         <img class="rounded h-full" src="{{ Storage::url($post->photo) }}" alt="">
