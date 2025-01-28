@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function() {
 
     // Comment
     Route::post('/comments/{post_id}', [CommentController::class, 'store'])->name('comment.store');
+    Route::delete('/comment/{comment_id}', [CommentController::class, 'destroy'])->name('comment.destroy');
     
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

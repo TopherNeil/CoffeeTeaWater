@@ -6,6 +6,8 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function Pest\Laravel\delete;
+
 class CommentController extends Controller
 {
     /**
@@ -77,8 +79,21 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comment $comment)
+    public function destroy($id)
     {
-        //
+        try {
+
+            $comment = Comment::findOrFail($id);
+            $comment->delete();
+
+            return redirect()->back();
+            
+        } catch(\Exception $e)
+        {
+            report($e);
+        }
+        
+
+
     }
 }

@@ -63,7 +63,7 @@
             </form>
 
             <span class="mb-5">{{ 'Comments(' . $comments->total() . ')' }}</span>
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col justify-center gap-2">
                 @if (count($comments) > 0)
                     @foreach ($comments as $comment)
                         <div class="w-full flex items-center rounded-lg gap-2 shadow p-4">
@@ -78,6 +78,19 @@
                                 
                                 <p class="text-sm w-full break-all">{{ $comment->content }}</p>
                             </div>
+                            @if(Auth::id() == $comment->user_id)
+                                <div>
+                                    <x-options>
+                                        <form method="POST" action="{{route('comment.destroy', ['comment_id' => $comment->id])}}">
+                                            @csrf
+                                            @method('DELETE')
+                                            
+                                            <button role="button" type="submit" class="hover:text-red-600">Delete</button>
+                                        </form>
+                                    </x-options>
+                                    
+                                </div>
+                            @endif
                         </div>
                     @endforeach
                     @if ($comments->hasPages())
