@@ -81,7 +81,13 @@ class PostController extends Controller
 
             $comments = Comment::leftJoin('posts', 'posts.id', '=', 'comments.post_id')
                         ->leftJoin('users', 'users.id', '=', 'comments.user_id')
-                        ->select('comments.id as id', 'comments.user_id as user_id', 'comments.content as content', 'users.username as username', 'users.profile_picture as profile_picture', 'comments.created_at as created_at')
+                        ->select('comments.id as id', 
+                                 'comments.user_id as user_id',
+                                 'comments.content as content', 
+                                 'users.username as username', 
+                                 'users.profile_picture as profile_picture', 
+                                 'comments.updated_at as updated_at',
+                                 'comments.created_at as created_at')
                         ->where('posts.id', $id)
                         ->paginate(5);
             
