@@ -103,9 +103,9 @@
                     </div>
                     @endif
                 @else
-                    <div class="w-full h-[100px] flex flex-col items-center justify-center">
-                        <span class="text-xl">No Comments Yet.</span>
-                        <span class="font-bold">:<</span>
+                    <div class="w-full h-[200px] flex flex-col items-center justify-center">
+                        <img class="ms-10 w-[200px] h-[200px]" src="{{asset('assets/images/no_comment_gif.gif')}}" alt="">
+                        <span class="text-xl font-thin">{{__('No Comments Yet.')}}</span>
                     </div>
                 @endif
             </div>
