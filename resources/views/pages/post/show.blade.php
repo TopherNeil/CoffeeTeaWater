@@ -73,7 +73,10 @@
                             <div class="flex flex-col justify-center w-full">
                                 <div class="flex gap-2 items-center">
                                     <span class="font-bold">{{'u/' . $comment->username}}</span>
-                                    <span class="text-xs">{{ $comment->created_at->diffForHumans() }}</span>
+                                    <span class="text-xs">{{ $comment->updated_at->diffForHumans() }}</span>
+                                    @if($comment->created_at != $comment->updated_at)
+                                        <span class="text-xs text-blue-400">Edited</span>
+                                    @endif
                                 </div>
                                 
                                 <p class="text-sm w-full break-all">{{ $comment->content }}</p>
@@ -81,6 +84,7 @@
                             @if(Auth::id() == $comment->user_id)
                                 <div>
                                     <x-options>
+                                        <a href="/comment/edit/{{$post->id}}/{{$comment->id}}" class="hover:text-blue-400">Edit</a>
                                         <form method="POST" action="{{route('comment.destroy', ['comment_id' => $comment->id])}}">
                                             @csrf
                                             @method('DELETE')
