@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -17,6 +18,7 @@ class PostController extends Controller
             
             $posts = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
             ->leftJoin('comments', 'comments.post_id', '=', 'posts.id')
+            ->leftJoin('likes', 'likes.post_id', '=', 'posts.id')
             ->select(
                 'posts.id as id',
                 'posts.user_id as user_id',
@@ -25,11 +27,18 @@ class PostController extends Controller
                 'posts.created_at as created_at',
                 'posts.description as description',
                 'posts.photo as photo',
+                DB::raw('GROUP_CONCAT(likes.user_id) as likers'),
+                DB::raw('COUNT(DISTINCT likes.user_id) as likes_count'),
                 DB::raw('COUNT(comments.id) as comment_count'))
             ->groupBy('posts.id', 'posts.user_id', 'users.username', 'posts.title', 'posts.created_at', 'posts.description', 'posts.photo')
             ->latest()
             ->get();
 
+            $posts = $posts->map(function($post) {
+                $post->likers = $post->likers ? explode(',', $post->likers) : [];
+                return $post;
+            });
+    
             return view('pages.home', compact('posts'));
 
         } catch (\Exception $e) {
@@ -70,14 +79,25 @@ class PostController extends Controller
     public function show($id) 
     {
         try {
-          
             $post = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
-                    ->where('posts.id', $id)
-                    ->select('posts.id as id', 'posts.user_id as user_id', 
-                             'users.username as username', 'users.profile_picture as profile_picture', 'posts.title as title', 
+                    ->leftJoin('likes', 'likes.post_id', '=', 'posts.id')
+                    ->select('posts.id as id', 
+                             'posts.user_id as user_id', 
+                             'users.username as username', 
+                             'users.profile_picture as profile_picture', 
+                             'posts.title as title', 
                              'posts.created_at as created_at', 'posts.description as description', 
-                             'posts.photo as photo')
+                             'posts.photo as photo',
+                             DB::raw('GROUP_CONCAT(likes.user_id) as likers'),
+                             DB::raw('COUNT(DISTINCT likes.user_id) as likes_count'))
+                    ->where('posts.id', $id)
+                    ->groupBy('posts.id', 'posts.user_id', 'users.username', 'users.profile_picture', 
+                          'posts.title', 'posts.created_at', 'posts.description', 'posts.photo')
                     ->first();
+            
+            if ($post) {
+                $post->likers = $post->likers ? explode(',', $post->likers) : [];
+            }
 
             $comments = Comment::leftJoin('posts', 'posts.id', '=', 'comments.post_id')
                         ->leftJoin('users', 'users.id', '=', 'comments.user_id')
@@ -90,7 +110,7 @@ class PostController extends Controller
                                  'comments.created_at as created_at')
                         ->where('posts.id', $id)
                         ->paginate(5);
-            
+
             return view('pages.post.show', compact('post', 'comments'));
 
         } catch (\Exception $e) {

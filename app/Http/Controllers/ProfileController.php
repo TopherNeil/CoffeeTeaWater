@@ -17,6 +17,7 @@ class ProfileController extends Controller
             $currentUser = Auth::user();
             $posts = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
                             ->leftJoin('comments', 'comments.post_id', '=', 'posts.id')
+                            ->leftJoin('likes', 'likes.post_id', '=', 'posts.id')
                             ->select('users.username as username', 
                                     'posts.user_id as user_id', 
                                     'posts.id as post_id', 
@@ -24,10 +25,17 @@ class ProfileController extends Controller
                                     'posts.title', 
                                     'posts.description', 
                                     'posts.photo',
+                                    DB::raw('GROUP_CONCAT(likes.user_id) as likers'),
+                                    DB::raw('COUNT(DISTINCT likes.user_id) as likes_count'),
                                     DB::raw('COUNT(comments.id) as comment_count'))
                             ->where('users.id', $currentUser->id)
                             ->groupBy('users.username', 'posts.user_id', 'posts.id', 'posts.created_at', 'posts.title', 'posts.description', 'posts.photo')
                             ->get();
+            
+            $posts = $posts->map(function($post) {
+                $post->likers = $post->likers ? explode(',', $post->likers) : [];
+                return $post;
+            });
 
             return view('pages.profile.index', ['user' => $currentUser, 'posts' => $posts]);
 
