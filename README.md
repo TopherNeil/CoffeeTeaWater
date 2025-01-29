@@ -48,4 +48,3 @@
 ![blob](/public/assets/images/snippet_7.png)
 ![blob](/public/assets/images/snippet_8.png)
 ![blob](/public/assets/images/snippet_9.png)
-![blob](/public/assets/images/snippet_10.png)
