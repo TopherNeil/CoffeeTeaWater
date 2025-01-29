@@ -29,7 +29,7 @@ class PostController extends Controller
                 'posts.photo as photo',
                 DB::raw('GROUP_CONCAT(likes.user_id) as likers'),
                 DB::raw('COUNT(DISTINCT likes.user_id) as likes_count'),
-                DB::raw('COUNT(comments.id) as comment_count'))
+                DB::raw('COUNT(DISTINCT comments.id) as comments_count'))
             ->groupBy('posts.id', 'posts.user_id', 'users.username', 'posts.title', 'posts.created_at', 'posts.description', 'posts.photo')
             ->latest()
             ->get();
