@@ -22,7 +22,7 @@
             <span class="text-center font-bold mt-2">{{ 'u/' . $user->username }}</span>
         </div>
         @foreach ($posts as $post)
-            <div class="flex flex-col border-t border-slate-300 my-2 p-5 w-100 h-auto rounded relative">
+            <div id="{{$post->post_id}}" class="flex flex-col border-t border-slate-300 my-2 p-5 w-100 h-auto rounded relative">
                 <div class="flex w-full gap-2 justify-between items-center">
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold hover:text-gray-600">{{ 'u/' . $post->username }}</h1>
@@ -60,10 +60,18 @@
                     </div>
                 @endif
                 <div class="mt-6 flex w-full gap-2">
-                    <form method="POST" action="{{ route('home') }}">
-                        @csrf
-                        <x-icon-button icon="fas-heart" :active="true" text="143" active_state="text-red-600 group-hover:text-red-300" inactive_state="text-gray-600 group-hover:text-red-600"/>
-                    </form>
+                    @if(!in_array(Auth::id(), $post->likers ?? [])) 
+                        <form method="POST" action="{{ route('like.store', ['post_id' => $post->post_id]) }}">
+                            @csrf
+                            <x-icon-button icon="fas-heart" text="{{$post->likes_count}}" active_state="text-red-600 group-hover:text-red-300" inactive_state="text-gray-600 group-hover:text-red-600"/>
+                        </form>
+                    @else
+                        <form method="POST" action="{{ route('like.destroy', ['post_id' => $post->post_id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <x-icon-button icon="fas-heart" :active="true" text="{{$post->likes_count}}" active_state="text-red-600 group-hover:text-red-300" inactive_state="text-gray-600 group-hover:text-red-600"/>
+                        </form>
+                    @endif
                     
                     <a class="group" href="/post/{{$post->post_id}}">
                         <x-button severity="custom" name="Comments({{$post->comment_count}})" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600" class=""/>

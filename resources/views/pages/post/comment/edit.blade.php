@@ -41,12 +41,6 @@
                     <p class="text-xl">{{ $post->description }}</p>
                 </div>
             @endif
-            <div class="mt-6 flex w-full gap-2">
-                <form method="POST" action="{{ route('home') }}">
-                    @csrf
-                    <x-icon-button icon="fas-heart" :active="true" text="143" active_state="text-red-600 group-hover:text-red-300" inactive_state="text-gray-600 group-hover:text-red-600"/>
-                </form>
-            </div>
         </div>
         <div class="rounded-lg w-full h-auto px-5 py-2">
             

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CommentController;
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function() {
     
     // Home
     Route::get('/home', [PostController::class, 'index'])->name('home');
+    // Route::get('/home/#{post_id}', [PostController::class, 'index']);
     
     // Post
     Route::get('/post', [PostController::class, 'create'])->name('post');
@@ -56,14 +58,18 @@ Route::middleware('auth')->group(function() {
     Route::get('/comment/edit/{post_id}/{comment_id}', [CommentController::class, 'edit'])->name('comment.edit');
     Route::put('/comment/update/{post_id}/{comment_id}', [CommentController::class, 'update'])->name('comment.update');
     Route::delete('/comment/{comment_id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+
+    // Like
+    Route::post('/like/{post_id}', [LikeController::class, 'store'])->name('like.store');
+    Route::delete('/like/{post_id}', [LikeController::class, 'destroy'])->name('like.destroy');
     
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 
-
 Route::get('/clear-session', function() {
     AuthController::clearMessage();
     return redirect()->back();
 });
+
