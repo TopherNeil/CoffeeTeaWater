@@ -35,6 +35,7 @@
     <a style="font-size: 2.05rem; font-weight:bold; color: skyblue;" href="https://alpinejs.dev/" target="_blank"><li>Alphine JS</li></a>
     <a style="font-size: 2.05rem; font-weight:bold; color: #7DF9FF;" href="https://tailwindcss.com" target="_blank"><li>TailwindCSS</li></a>
     <a style="font-size: 2.05rem; font-weight:bold; color: navyblue;" href="https://mysql.com" target="_blank"><li>MySQL</li></a>
+    <a style="font-size: 2.05rem; font-weight:bold; color: orange;" href="https://livewire.laravel.com/" target="_blank"><li>LiveWire</li></a>
 </ul>
 
 <h1 style="margin-top: 50px;">Project Features Snippets:</h1>
@@ -48,3 +49,4 @@
 ![blob](/public/assets/images/snippet_7.png)
 ![blob](/public/assets/images/snippet_8.png)
 ![blob](/public/assets/images/snippet_9.png)
+![blob](/public/assets/images/snippet_10.png)
