@@ -46,7 +46,7 @@
                     </a>
                 @else
                     <div class="mt-2">
-                        <p class="text-xl">{{ $post->description }}</p>
+                        <p class="text-xl break-all">{{ $post->description }}</p>
                     </div>
                 @endif
                 <div class="mt-6 flex w-full gap-2">

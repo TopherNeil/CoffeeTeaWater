@@ -29,7 +29,7 @@
 
             @if($post->photo)
                 <div class="mb-2">
-                    <p class="text-xl">{{ $post->description }}</p>
+                    <p class="text-xl break-all">{{ $post->description }}</p>
                 </div>
                 <a href="/storage/{{ $post->photo }}" class="cursor-zoom-in">
                     <div class="bg-gradient-to-tr from-slate-600 to-slate-800 w-full h-[450px] rounded flex justify-center">
@@ -38,7 +38,7 @@
                 </a>
             @else
                 <div class="mt-2">
-                    <p class="text-xl">{{ $post->description }}</p>
+                    <p class="text-xl break-all">{{ $post->description }}</p>
                 </div>
             @endif
             <div class="mt-6 flex w-full gap-2">
