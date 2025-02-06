@@ -2,7 +2,7 @@
     <input class="shadow-md p-2 w-full h-[50px] rounded focus:outline-none" wire:model="search" wire:keydown="researchUser" placeholder="Search...">
     @if($search != '') 
         @foreach ($users as $user)
-            <a href="/profile/{{$user->id}}">
+            <a href="/profile/{{'@'.$user->username}}">
                 <div class="flex gap-2 my-2 items-center border rounded border-blue-300 p-3 shadow-blue-300 shadow-sm">
                     <img class="w-[50px] h-[50px] object-fill rounded-[50%] border border-blue-400" src="{{$user->profile_picture ? Storage::url($user->profile_picture) : asset('assets/images/blank_profile.png')}}" alt="">
                     <span>{{'u/'.$user->username}}</span>
