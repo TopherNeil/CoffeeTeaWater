@@ -59,10 +59,6 @@ Route::middleware('auth')->group(function() {
     Route::put('/comment/update/{post_id}/{comment_id}', [CommentController::class, 'update'])->name('comment.update');
     Route::delete('/comment/{comment_id}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
-    // Like
-    Route::post('/like/{post_id}', [LikeController::class, 'store'])->name('like.store');
-    Route::delete('/like/{post_id}', [LikeController::class, 'destroy'])->name('like.destroy');
-    
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
