@@ -42,18 +42,7 @@
                 </div>
             @endif
             <div class="mt-6 flex w-full gap-2">
-                @if(!in_array(Auth::id(), $post->likers))
-                    <form method="POST" action="{{ route('like.store', ['post_id' => $post->id]) }}">
-                        @csrf
-                        <x-icon-button icon="fas-heart" text="{{$post->likes_count}}" active_state="text-red-600 group-hover:text-red-300" inactive_state="text-gray-600 group-hover:text-red-600"/>
-                    </form>
-                @else
-                    <form method="POST" action="{{ route('like.destroy', ['post_id' => $post->id]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <x-icon-button icon="fas-heart" :active="true" text="{{$post->likes_count}}" active_state="text-red-600 group-hover:text-red-300" inactive_state="text-gray-600 group-hover:text-red-600"/>
-                    </form>
-                @endif
+                <livewire:like :post_id="$post->id" /> 
             </div>
         </div>
         <div class="rounded-lg w-full h-auto px-5 py-2">
