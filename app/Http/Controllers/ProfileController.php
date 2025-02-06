@@ -73,4 +73,38 @@ class ProfileController extends Controller
             report($e);
         }
     }
+
+    public function show($username)
+    {
+        try {
+
+            $userToVisit = User::select('id', 'username', 'email', 'profile_picture')->where('username', '=', $username)->first();
+            $posts = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
+                            ->leftJoin('comments', 'comments.post_id', '=', 'posts.id')
+                            ->leftJoin('likes', 'likes.post_id', '=', 'posts.id')
+                            ->select('users.username as username', 
+                                    'posts.user_id as user_id', 
+                                    'posts.id as post_id', 
+                                    'posts.created_at', 
+                                    'posts.title', 
+                                    'posts.description', 
+                                    'posts.photo',
+                                    DB::raw('GROUP_CONCAT(likes.user_id) as likers'),
+                                    DB::raw('COUNT(DISTINCT likes.user_id) as likes_count'),
+                                    DB::raw('COUNT(comments.id) as comment_count'))
+                            ->where('users.id', $userToVisit->id)
+                            ->groupBy('users.username', 'posts.user_id', 'posts.id', 'posts.created_at', 'posts.title', 'posts.description', 'posts.photo')
+                            ->get();
+            
+            $posts = $posts->map(function($post) {
+                $post->likers = $post->likers ? explode(',', $post->likers) : [];
+                return $post;
+            });
+
+            return view('pages.profile.show', ['user' => $userToVisit, 'posts' => $posts]);
+
+        } catch (\Exception $e) {
+            report($e);
+        }
+    }
 }

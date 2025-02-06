@@ -15,7 +15,10 @@
             <div id="{{$post->id}}" class="flex flex-col border-t border-slate-300 my-2 p-5 w-100 h-auto rounded relative">
                 <div class="flex w-full gap-2 justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <h1 class="text-xl font-bold hover:text-gray-600">{{ 'u/' . $post->username }}</h1>
+                        <a class="flex items-center gap-2" href="/profile/{{'@'.$post->username}}">
+                            <img class="w-[40px] h-[40px] rounded-[50%]" src="{{$post->profile_picture ? Storage::url($post->profile_picture) : asset('assets/images/blank_profile.png')}}" alt="profile_picture">
+                            <h1 class="text-xl font-bold hover:text-gray-600">{{ 'u/' . $post->username }}</h1>
+                        </a>
                         <span class="text-xs">{{ $post->created_at->diffForHumans() }}</span>
                     </div>
                     @auth

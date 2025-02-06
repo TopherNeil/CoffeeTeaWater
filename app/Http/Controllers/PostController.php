@@ -23,6 +23,7 @@ class PostController extends Controller
                 'posts.id as id',
                 'posts.user_id as user_id',
                 'users.username as username',
+                'users.profile_picture as profile_picture',
                 'posts.title as title',
                 'posts.created_at as created_at',
                 'posts.description as description',
