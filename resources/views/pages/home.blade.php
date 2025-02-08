@@ -9,10 +9,10 @@
     <div class="w-full flex justify-center mt-[20px] h-[20px]">
         <span class="text-xl font-bold">{{__('Home')}}</span>
     </div>
-    <div class="w-[830px] h-auto flex flex-col rounded shadow-lg border-slate-600 p-10">
+    <div class="w-[830px] h-auto flex flex-col rounded">
         
         @foreach ($posts as $post)
-            <div id="{{$post->id}}" class="flex flex-col border-t border-slate-300 my-2 p-5 w-100 h-auto rounded relative">
+            <div id="{{$post->id}}" class="flex flex-col  my-5 shadow-lg p-5 w-100 h-auto rounded-md relative">
                 <div class="flex w-full gap-2 justify-between items-center">
                     <div class="flex items-center gap-2">
                         <a class="flex items-center gap-2" href="/profile/{{'@'.$post->username}}">
