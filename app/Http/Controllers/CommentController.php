@@ -19,42 +19,45 @@ class CommentController extends Controller
             $form = $request->validate([
                 'content' => 'required|string|max:10000'
             ]);
-    
+
             $form['user_id'] = Auth::id();
             $form['post_id'] = $post_id;
-    
+
             try {
                 Comment::create($form);
                 return redirect()->back();
             } catch (\Exception $e) {
                 report($e);
             }
-
         } catch (\Exception $e) {
             report($e);
         }
-        
     }
 
     public function edit($post_id, $comment_id)
     {
         try {
-          
+
             $post = Post::leftJoin('users', 'users.id', '=', 'posts.user_id')
-                    ->where('posts.id', $post_id)
-                    ->select('posts.id as id', 'posts.user_id as user_id', 
-                             'users.username as username', 'users.profile_picture as profile_picture', 'posts.title as title', 
-                             'posts.created_at as created_at', 'posts.description as description', 
-                             'posts.photo as photo')
-                    ->first();
+                ->where('posts.id', $post_id)
+                ->select(
+                    'posts.id as id',
+                    'posts.user_id as user_id',
+                    'users.username as username',
+                    'users.profile_picture as profile_picture',
+                    'posts.title as title',
+                    'posts.created_at as created_at',
+                    'posts.description as description',
+                    'posts.photo as photo'
+                )
+                ->first();
 
             $comment = Comment::findOrFail($comment_id)->toArray();
-            
-            return view('pages.post.comment.edit', compact('post', 'comment'));
 
+            return view('pages.post.comment.edit', compact('post', 'comment'));
         } catch (\Exception $e) {
             report($e);
-        } 
+        }
         return view('pages.post.comment.edit');
     }
 
@@ -67,8 +70,7 @@ class CommentController extends Controller
 
             $comment->update($form);
 
-            return redirect('post/'.$post_id);
-
+            return redirect('post/' . $post_id);
         } catch (\Exception $e) {
             report($e);
         }
@@ -82,9 +84,7 @@ class CommentController extends Controller
             $comment->delete();
 
             return redirect()->back();
-            
-        } catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             report($e);
         }
     }
