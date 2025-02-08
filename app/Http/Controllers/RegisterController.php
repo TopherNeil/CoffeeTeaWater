@@ -28,7 +28,6 @@ class RegisterController extends Controller
             $user = User::create($form);
             Auth::login($user);
             return redirect()->intended('home');
-            
         } catch (\Exception $e) {
             report($e);
         }
