@@ -1,11 +1,7 @@
 <x-layout>
     <x-navbar/>
-        
-    <div class="w-full flex justify-center mt-[20px] h-[20px]">
-        <span class="text-xl font-bold">{{__('Profile')}}</span>
-    </div>
-    <div class="w-[830px] h-auto flex flex-col rounded shadow-lg border-slate-600 p-10">
-        <div class="mt-4 w-full flex flex-col items-center justify-center">
+    <div class="w-[830px] h-auto flex flex-col rounded">
+        <div class="mt-4 w-full flex flex-col items-center justify-center border border-slate-300 p-5 rounded-lg shadow-md bg-slate-200">
             @if(Auth::id() == $user->id)
             <a href="{{ route('profile.edit') }}">
                 <div class="group relative rounded-full h-[120px] w-[120px] flex justify-center items-center">
@@ -32,7 +28,7 @@
             <span class="text-center font-bold mt-2">{{ 'u/' . $user->username }}</span>
         </div>
         @foreach ($posts as $post)
-            <div id="{{$post->post_id}}" class="flex flex-col border-t border-slate-300 my-2 p-5 w-100 h-auto rounded relative">
+            <div id="{{$post->post_id}}" class="flex flex-col  my-5 shadow-lg p-5 w-100 h-auto rounded-md relative">
                 <div class="flex w-full gap-2 justify-between items-center">
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold hover:text-gray-600">{{ 'u/' . $post->username }}</h1>
