@@ -19,7 +19,7 @@
             <span class="text-center font-bold mt-2">{{ 'u/' . $user->username }}</span>
         </div>
         @foreach ($posts as $post)
-            <div id="{{$post->post_id}}" class="flex flex-col  my-5 shadow-lg p-5 w-100 h-auto rounded-md relative">
+            <div id="{{$post->post_id}}" class="flex flex-col border border-slate-100 my-5 shadow-lg p-5 w-100 h-auto rounded-md relative">
                 <div class="flex w-full gap-2 justify-between items-center">
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl font-bold hover:text-gray-600">{{ 'u/' . $post->username }}</h1>

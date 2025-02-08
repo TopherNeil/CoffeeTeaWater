@@ -12,7 +12,7 @@
     <div class="w-[830px] h-auto flex flex-col rounded">
         
         @foreach ($posts as $post)
-            <div id="{{$post->id}}" class="flex flex-col  my-5 shadow-lg p-5 w-100 h-auto rounded-md relative">
+            <div id="{{$post->id}}" class="flex flex-col border border-slate-100 my-5 shadow-lg p-5 w-100 h-auto rounded-md relative">
                 <div class="flex w-full gap-2 justify-between items-center">
                     <div class="flex items-center gap-2">
                         <a class="flex items-center gap-2" href="/profile/{{'@'.$post->username}}">

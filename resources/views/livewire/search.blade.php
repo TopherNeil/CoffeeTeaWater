@@ -1,5 +1,5 @@
 <div class="w-full">
-    <input class="shadow-md p-2 w-full h-[50px] rounded focus:outline-none" wire:model="search" wire:keydown="researchUser" placeholder="Search...">
+    <input class="border border-slate-100 shadow-md p-2 w-full h-[50px] rounded focus:outline-none" wire:model="search" wire:keydown="researchUser" placeholder="Search...">
     @if($search != '') 
         @foreach ($users as $user)
             <a href="/profile/{{'@'.$user->username}}">
