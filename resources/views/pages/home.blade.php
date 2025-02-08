@@ -54,7 +54,6 @@
                 @endif
                 <div class="mt-6 flex w-full gap-2">
                     <livewire:like :post_id="$post->id" /> 
-                
                     <a class="group" href="/post/{{$post->id}}">
                         <x-button severity="custom" name="Comments({{$post->comments_count}})" active_state="text-orange-600 group-hover:text-orange-300" inactive_state="text-gray-600 group-hover:text-orange-600"/>
                     </a>
