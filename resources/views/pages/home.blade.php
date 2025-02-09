@@ -18,7 +18,7 @@
                     <div class="flex items-center gap-2">
                         <a class="flex items-center gap-2" href="/profile/{{ '@' . $post->username }}">
                             <img class="w-[40px] h-[40px] rounded-[50%]"
-                                src="{{ $post->profile_picture ? Storage::url($post->profile_picture) : asset('assets/images/blank_profile.png') }}"
+                                src="{{ $post->profile_picture ? "storage/{$post->profile_picture}" : asset('assets/images/blank_profile.png') }}"
                                 alt="profile_picture">
                             <h1 class="text-xl font-bold hover:text-gray-600">{{ 'u/' . $post->username }}</h1>
                         </a>
@@ -50,7 +50,7 @@
                     <a href="/storage/{{ $post->photo }}" class="cursor-zoom-in">
                         <div
                             class="bg-gradient-to-tr from-slate-600 to-slate-800 w-full h-[450px] rounded flex justify-center">
-                            <img class="rounded h-full" src="{{ Storage::url($post->photo) }}" alt="">
+                            <img class="rounded h-full" src="{{ 'storage/' . $post->photo }}" alt="">
                         </div>
                     </a>
                 @else
