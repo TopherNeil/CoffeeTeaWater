@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? __('Coffee Tea Water') }}</title>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     @vite(['resources/js/app.js', 'resources/css/app.css'])
+    @livewireStyles
 </head>
 
 <body class="antialiased w-full h-full">
@@ -16,6 +17,7 @@
             {{ $slot }}
         </main>
     </div>
+    @livewireScripts
 </body>
 
 </html>
